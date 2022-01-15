@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 
 import logo from "../img/brand.png";
-import { useEffect } from "react/cjs/react.development";
 
 const NavbarItem = ({ label, classProps, path, link }) => {
     if (link) {
