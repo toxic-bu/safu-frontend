@@ -15,7 +15,7 @@ const ContactLinkItem = ({ href, icon }) => {
 
 const Footer = () => {
     return (
-        <div className="text-white w-full p-6 md:px-20 gradient-bg-footer flex sm:flex-row justify-between flex-col-reverse items-center">
+        <div className="text-white w-full p-6 md:px-20 flex sm:flex-row justify-between flex-col-reverse items-center">
             <div className="text-xs flex items-center">
                 <CgCopyright />
                 <div>2022 All Rights Reserved.</div>
