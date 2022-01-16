@@ -42,12 +42,12 @@ const Navbar = () => {
                 </Link>
             </div>
             <ul className="text-white md:flex hidden list-none flex-row justify-between items-center">
-                <NavbarItem path="/app" label="App" />
+                <NavbarItem path="/profile" label="Profile" />
                 <NavbarItem path="/roadmap" label="Roadmap" />
                 <NavbarItem link="https://docs.safu.space/" label="Docs" />
                 <NavbarItem
-                    path="/profile"
-                    label="Profile"
+                    path="/app"
+                    label="App"
                     classProps="bg-[#C3FBD8] py-2 px-7 mx-4 rounded-full hover:bg-[#76bd80] hover:text-white text-black"
                 />
             </ul>

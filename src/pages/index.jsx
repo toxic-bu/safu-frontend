@@ -1,5 +1,6 @@
 import { Navbar, Footer, Welcome, Services } from "../components";
-import { RoadmapConent } from "./RoadmapConent";
+import RoadmapConent from "./RoadmapConent";
+import AppContent from "./AppContent";
 export const MainPage = () => {
     return (
         <div className="min-h-screen">
@@ -18,11 +19,9 @@ export const MainPage = () => {
 export const AppPage = () => {
     return (
         <div className="min-h-screen gradient-bg-welcome">
-            <div className="">
+            <div className="min-h-screen">
                 <Navbar />
-                <div className="h-screen flex items-center justify-center ">
-                    <p className="text-5xl text-white">App development</p>
-                </div>
+                <AppContent />
             </div>
             <div className="gradient-bg-footer">
                 <Footer />

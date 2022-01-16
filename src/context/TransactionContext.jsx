@@ -1,4 +1,6 @@
 import { useEffect, useState, createContext } from "react";
+import { useAlert } from "react-alert";
+
 // import { ethers } from "ethers";
 
 // import { contractABI, contractAdress } from "../utils/constants";
@@ -21,6 +23,8 @@ export const TransactionProvider = ({ children }) => {
     const [stakeFormAmount, setStakeFormAmount] = useState("");
     const [unstakeFormAmount, setUnstakeFormAmount] = useState("");
 
+    const alert = useAlert();
+
     const handleStakeChange = (e) => {
         setStakeFormAmount(e.target.value);
     };
@@ -36,8 +40,6 @@ export const TransactionProvider = ({ children }) => {
             let accounts;
             if (ethereum) {
                 accounts = await ethereum.request({ method: "eth_accounts" });
-            } else {
-                return alert("please install metamask");
             }
 
             if (accounts.length) {
@@ -54,7 +56,15 @@ export const TransactionProvider = ({ children }) => {
 
     const connectWallet = async () => {
         try {
-            if (!ethereum) return alert("please install metamask");
+            if (!ethereum) {
+                alert.show("Metamask is not installed", {
+                    content: "Please install metamask ",
+                    link: "metamask.io",
+                    href: "https://metamask.io/",
+                    timeout: 5000,
+                    transition: "scale",
+                });
+            }
 
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
