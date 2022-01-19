@@ -24,14 +24,14 @@ const AppNavbar = () => {
 
     return (
         <nav className="flex justify-between items-center md:pt-2 md:px-20 pt-1">
-            <div className="fixed bg-white rounded-full px-2 w-24 flex justify-between  left-2/4 -translate-x-1/2 md:top-3 top-full -translate-y-12 md:translate-y-0 mf:translate-y-2">
+            <div className="fixed bg-white rounded-full px-2 w-24 flex justify-between  left-2/4 -translate-x-1/2 md:top-3 top-full -translate-y-12 md:translate-y-0 mf:translate-y-2 shadow-white shadow-lg">
                 <AppNavbarTab link="/app/info" label="Info" activeTab={activeTab} setActive={setActiveTab} />
                 <AppNavbarTab link="/app/stake" label="Stake" activeTab={activeTab} setActive={setActiveTab} />
             </div>
 
             <div className="z-10 pl-1">
                 <Link to="/">
-                    <img src={logo} alt="logo" className="w-8 mf:w-12 cursor-pointer" />
+                    <img src={logo} alt="logo" className="w-8 mf:w-12 cursor-pointer " />
                 </Link>
             </div>
             {currentAccount ? (
