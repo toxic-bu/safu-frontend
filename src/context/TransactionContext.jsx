@@ -62,7 +62,6 @@ export const TransactionProvider = ({ children }) => {
                     link: "metamask.io",
                     href: "https://metamask.io/",
                     timeout: 5000,
-                    transition: "scale",
                 });
             }
 

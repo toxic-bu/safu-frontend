@@ -1,6 +1,6 @@
 import React from "react";
 
-const RoadmapConent = () => {
+const Roadmap = () => {
     return (
         <div className="text-md text-white flex  justify-center ">
             <div className="blue-glassmorphism md:my-36 mx-6 my-12 md:p-12 p-4">
@@ -42,4 +42,4 @@ const RoadmapConent = () => {
         </div>
     );
 };
-export default RoadmapConent;
+export default Roadmap;

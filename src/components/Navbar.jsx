@@ -35,10 +35,10 @@ const Navbar = () => {
     }, [toggleMenu]);
 
     return (
-        <nav className="flex justify-between items-center md:pt-4 md:px-20 ">
-            <div className="z-10">
+        <nav className="flex justify-between items-center md:pt-2 md:px-20 pt-1">
+            <div className="z-10 pl-1">
                 <Link to="/">
-                    <img src={logo} alt="logo" className="w-52 cursor-pointer" />
+                    <img src={logo} alt="logo" className="w-12 cursor-pointer" />
                 </Link>
             </div>
             <ul className="text-white md:flex hidden list-none flex-row justify-between items-center">
@@ -48,7 +48,7 @@ const Navbar = () => {
                 <NavbarItem
                     path="/app"
                     label="App"
-                    classProps="bg-[#C3FBD8] py-2 px-7 mx-4 rounded-full hover:bg-[#76bd80] hover:text-white text-black"
+                    classProps="bg-[#76bd80] py-2 px-5 mx-4 rounded-full hover:bg-[#C3FBD8] hover:text-black"
                 />
             </ul>
             <div className="flex relative md:hidden mr-4">
@@ -67,7 +67,7 @@ const Navbar = () => {
                             className="z-10 w-[30vw] fixed h-screen top-0 left-0 md:hidden"
                             onClick={() => setToggleMenu(false)}
                         ></div>
-                        <ul className="z-10 fixed top-0 right-2 right-0 px-4 w-[70vw] h-screen text-3xl shadow-2xl md:hidden list-none flex flex-col justify-start items-start rounded-md blue-glassmorphism text-white animate-slide-in">
+                        <ul className="z-10 fixed top-0 right-2 right-0 px-4 w-[70vw] h-screen text-xl shadow-2xl md:hidden list-none flex flex-col justify-start items-start rounded-md blue-glassmorphism text-white animate-slide-in">
                             <li className="mt-5 self-end">
                                 <AiOutlineClose fontSize={32} onClick={() => setToggleMenu(false)} />
                             </li>
