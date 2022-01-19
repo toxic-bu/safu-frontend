@@ -33,13 +33,6 @@ export const Stake = () => {
                 >
                     Stake
                 </button>
-                <button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
-                >
-                    Stake All
-                </button>
             </div>
         </div>
     );
@@ -65,13 +58,6 @@ export const Unstake = () => {
                     className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer disabled:text-gray-500 mr-2"
                 >
                     Unstake
-                </button>
-                <button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer"
-                >
-                    Unstake All
                 </button>
             </div>
         </div>

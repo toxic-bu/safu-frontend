@@ -35,10 +35,10 @@ const Navbar = () => {
     }, [toggleMenu]);
 
     return (
-        <nav className="flex justify-between items-center md:pt-2 md:px-20 pt-1">
+        <nav className="flex justify-between items-center md:px-20 pt-1">
             <div className="z-10 pl-1">
                 <Link to="/">
-                    <img src={logo} alt="logo" className="w-12 cursor-pointer" />
+                    <img src={logo} alt="logo" className="w-8 mf:w-12 cursor-pointer" />
                 </Link>
             </div>
             <ul className="text-white md:flex hidden list-none flex-row justify-between items-center">
