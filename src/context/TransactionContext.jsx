@@ -45,13 +45,13 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const handleStake = () => {
-        let reciept = getContractWrite().stake(stakeFormAmount);
+        let reciept = getContractWrite().stake("" + stakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
         });
     };
     const handleUnstake = () => {
-        let reciept = getContractWrite().unstake(unstakeFormAmount);
+        let reciept = getContractWrite().unstake("" + unstakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
         });
