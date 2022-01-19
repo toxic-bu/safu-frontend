@@ -13,7 +13,7 @@ const Input = ({ placeholder, type, value, handleChange }) => (
 );
 
 export const Stake = () => {
-    const { handleStakeChange, handleSubmit, stakeFormAmount } = useContext(TransactionContext);
+    const { handleStakeChange, handleStake, stakeFormAmount } = useContext(TransactionContext);
     return (
         <div className="p-5 flex flex-col justify-start items-center blue-glassmorphism ">
             <Input
@@ -27,7 +27,7 @@ export const Stake = () => {
             <div className="flex w-full">
                 <button
                     type="button"
-                    onClick={handleSubmit}
+                    onClick={handleStake}
                     disabled={+stakeFormAmount > 0 ? false : true}
                     className={`text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer disabled:text-gray-500 mr-2`}
                 >
@@ -39,7 +39,7 @@ export const Stake = () => {
 };
 
 export const Unstake = () => {
-    const { handleUnstakeChange, handleSubmit, unstakeFormAmount } = useContext(TransactionContext);
+    const { handleUnstakeChange, unstakeFormAmount, handleUnstake } = useContext(TransactionContext);
     return (
         <div className="p-5 mt-5 flex flex-col justify-start items-center blue-glassmorphism">
             <Input
@@ -53,7 +53,7 @@ export const Unstake = () => {
             <div className="flex w-full">
                 <button
                     type="button"
-                    onClick={handleSubmit}
+                    onClick={handleUnstake}
                     disabled={+unstakeFormAmount > 0 ? false : true}
                     className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] rounded-full cursor-pointer disabled:text-gray-500 mr-2"
                 >

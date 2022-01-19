@@ -9,10 +9,18 @@ export const TransactionContext = createContext();
 
 let { ethereum } = window;
 
-const getContract = () => {
+const getContractRead = () => {
     if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const contract = new ethers.Contract(contractAdress, contractABI, provider);
+        return contract;
+    }
+};
+const getContractWrite = () => {
+    if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(contractAdress, contractABI, signer);
         return contract;
     }
 };
@@ -36,22 +44,32 @@ export const TransactionProvider = ({ children }) => {
         setUnstakeFormAmount(e.target.value);
     };
 
-    const handleSubmit = () => {};
+    const handleStake = () => {
+        let reciept = getContractWrite().stake(stakeFormAmount);
+        reciept.then((res) => {
+            console.log(res);
+        });
+    };
+    const handleUnstake = () => {
+        let reciept = getContractWrite().unstake(unstakeFormAmount);
+        reciept.then((res) => {
+            console.log(res);
+        });
+    };
 
     const checkIfWalletIsConnected = async () => {
         try {
             let accounts;
             if (ethereum) {
                 accounts = await ethereum.request({ method: "eth_accounts" });
-                const balance = await getContract().balanceOf(accounts[0]);
-                const balance1 = await getContract().totalBalanceOf(accounts[0]);
-                const balance2 = await getContract().stBalanceOf(accounts[0]);
-                const name = await getContract().name();
+                const balance = await getContractRead().balanceOf(accounts[0]);
+                const balance1 = await getContractRead().totalBalanceOf(accounts[0]);
+                const balance2 = await getContractRead().stBalanceOf(accounts[0]);
+                const name = await getContractRead().name();
                 const convertedbalance = ethers.utils.formatUnits(balance, 9);
                 const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
                 const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
 
-                console.log(getContract());
                 setContractName(name);
                 setBalance(convertedbalance);
                 setBalance1(convertedbalance1);
@@ -82,10 +100,10 @@ export const TransactionProvider = ({ children }) => {
             }
 
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-            const balance = await getContract().balanceOf(accounts[0]);
-            const balance1 = await getContract().totalBalanceOf(accounts[0]);
-            const balance2 = await getContract().stBalanceOf(accounts[0]);
-            const name = await getContract().name();
+            const balance = await getContractRead().balanceOf(accounts[0]);
+            const balance1 = await getContractRead().totalBalanceOf(accounts[0]);
+            const balance2 = await getContractRead().stBalanceOf(accounts[0]);
+            const name = await getContractRead().name();
             const convertedBalance = ethers.utils.formatUnits(balance, 9);
             const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
             const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
@@ -118,7 +136,8 @@ export const TransactionProvider = ({ children }) => {
                 currentAccount,
                 handleStakeChange,
                 handleUnstakeChange,
-                handleSubmit,
+                handleStake,
+                handleUnstake,
                 stakeFormAmount,
                 unstakeFormAmount,
                 balance,
