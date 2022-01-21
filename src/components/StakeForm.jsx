@@ -1,9 +1,8 @@
 import { useContext, useState } from "react";
 import { TransactionContext } from "../context/TransactionContext";
 
-const Input = ({ placeholder, type, value, handleChange }) => (
+const Input = ({ type, value, handleChange }) => (
     <input
-        placeholder={placeholder}
         type={type}
         step="0.01"
         min="0"
@@ -36,7 +35,6 @@ const StakeForm = () => {
                     <TabButton label="Unstake" setTab={setTab} currentTab={tab} />
                 </div>
                 <Input
-                    placeholder="Amount"
                     type="number"
                     handleChange={tab === "Stake" ? setStakeFormAmount : setUnstakeFormAmount}
                     value={tab === "Stake" ? stakeFormAmount : unstakeFormAmount}

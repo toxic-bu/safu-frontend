@@ -117,16 +117,19 @@ export const TransactionProvider = ({ children }) => {
                 console.log("done getBalances useEffect");
             }
         };
-
-        contractInstance.provider?.on("block", getBalances);
-
         getBalances();
 
+        const interval = setInterval(() => {
+            getBalances();
+            console.log("did update 10sec");
+        }, 10000);
+
         return () => {
-            contractInstance.provider?.removeListener("block", getBalances);
+            clearInterval(interval);
         };
     }, [currentAccount, contractInstance]);
 
+    useEffect(() => {}, [contractInstance]);
     return (
         <TransactionContext.Provider
             value={{
