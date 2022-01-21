@@ -16,8 +16,8 @@ export const TransactionProvider = ({ children }) => {
     const [balance2, setBalance2] = useState("");
     const [contractName, setContractName] = useState("");
     const [currentAccount, setCurrentAccount] = useState("");
-    const [stakeFormAmount, setStakeFormAmount] = useState("");
-    const [unstakeFormAmount, setUnstakeFormAmount] = useState("");
+    const [stakeFormAmount, setStakeFormAmount] = useState(0.0);
+    const [unstakeFormAmount, setUnstakeFormAmount] = useState(0.0);
 
     const alert = useAlert();
 
@@ -25,12 +25,14 @@ export const TransactionProvider = ({ children }) => {
         let reciept = contractInstance.contractSigner.stake("" + stakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
+            setStakeFormAmount(0);
         });
     };
     const handleUnstake = () => {
         let reciept = contractInstance.contractSigner.unstake("" + unstakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
+            setUnstakeFormAmount(0);
         });
     };
 
@@ -43,6 +45,7 @@ export const TransactionProvider = ({ children }) => {
 
             const accounts = await ethereum.request({ method: "eth_accounts" });
             setCurrentAccount(accounts[0]);
+            console.log("done checkIfWalletIsConnected");
         } catch (error) {
             console.log(error);
 
@@ -64,6 +67,8 @@ export const TransactionProvider = ({ children }) => {
 
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
             setCurrentAccount(accounts[0]);
+
+            console.log("done connectWallet");
         } catch (error) {
             console.log(error);
 
@@ -81,6 +86,8 @@ export const TransactionProvider = ({ children }) => {
             setContractInstance({ contractSigner, contractProvider, provider });
 
             ethereum.on("accountsChanged", handleDisconnect);
+
+            console.log("done  setContractInstance useEffect");
         }
 
         checkIfWalletIsConnected();
@@ -95,23 +102,24 @@ export const TransactionProvider = ({ children }) => {
 
     useEffect(() => {
         const getBalances = async () => {
-            if (!currentAccount || !contractInstance) {
-                return;
+            if (currentAccount) {
+                const balance = await contractInstance.contractProvider.balanceOf(currentAccount);
+                const balance1 = await contractInstance.contractProvider.totalBalanceOf(currentAccount);
+                const balance2 = await contractInstance.contractProvider.stBalanceOf(currentAccount);
+                const name = await contractInstance.contractProvider.name();
+                const convertedbalance = ethers.utils.formatUnits(balance, 9);
+                const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
+                const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
+                setContractName(name);
+                setBalance(convertedbalance);
+                setBalance1(convertedbalance1);
+                setBalance2(convertedbalance2);
+                console.log("done getBalances useEffect");
             }
-            const balance = await contractInstance.contractProvider.balanceOf(currentAccount);
-            const balance1 = await contractInstance.contractProvider.totalBalanceOf(currentAccount);
-            const balance2 = await contractInstance.contractProvider.stBalanceOf(currentAccount);
-            const name = await contractInstance.contractProvider.name();
-            const convertedbalance = ethers.utils.formatUnits(balance, 9);
-            const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
-            const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
-            setContractName(name);
-            setBalance(convertedbalance);
-            setBalance1(convertedbalance1);
-            setBalance2(convertedbalance2);
-
-            contractInstance.provider.on("block", getBalances);
         };
+
+        contractInstance.provider?.on("block", getBalances);
+
         getBalances();
 
         return () => {
