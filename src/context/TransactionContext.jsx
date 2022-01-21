@@ -9,23 +9,8 @@ export const TransactionContext = createContext();
 
 let { ethereum } = window;
 
-const getContractRead = () => {
-    if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const contract = new ethers.Contract(contractAdress, contractABI, provider);
-        return contract;
-    }
-};
-const getContractWrite = () => {
-    if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(contractAdress, contractABI, signer);
-        return contract;
-    }
-};
-
 export const TransactionProvider = ({ children }) => {
+    const [contractInstance, setContractInstance] = useState({});
     const [balance, setBalance] = useState("");
     const [balance1, setBalance1] = useState("");
     const [balance2, setBalance2] = useState("");
@@ -36,22 +21,14 @@ export const TransactionProvider = ({ children }) => {
 
     const alert = useAlert();
 
-    const handleStakeChange = (e) => {
-        setStakeFormAmount(e.target.value);
-    };
-
-    const handleUnstakeChange = (e) => {
-        setUnstakeFormAmount(e.target.value);
-    };
-
     const handleStake = () => {
-        let reciept = getContractWrite().stake("" + stakeFormAmount * Math.pow(10, 9));
+        let reciept = contractInstance.contractSigner.stake("" + stakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
         });
     };
     const handleUnstake = () => {
-        let reciept = getContractWrite().unstake("" + unstakeFormAmount * Math.pow(10, 9));
+        let reciept = contractInstance.contractSigner.unstake("" + unstakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
         });
@@ -59,28 +36,13 @@ export const TransactionProvider = ({ children }) => {
 
     const checkIfWalletIsConnected = async () => {
         try {
-            let accounts;
-            if (ethereum) {
-                accounts = await ethereum.request({ method: "eth_accounts" });
-                const balance = await getContractRead().balanceOf(accounts[0]);
-                const balance1 = await getContractRead().totalBalanceOf(accounts[0]);
-                const balance2 = await getContractRead().stBalanceOf(accounts[0]);
-                const name = await getContractRead().name();
-                const convertedbalance = ethers.utils.formatUnits(balance, 9);
-                const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
-                const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
-
-                setContractName(name);
-                setBalance(convertedbalance);
-                setBalance1(convertedbalance1);
-                setBalance2(convertedbalance2);
-            }
-
-            if (accounts.length) {
-                setCurrentAccount(accounts[0]);
-            } else {
+            if (!ethereum) {
                 console.log("No account found");
+                return;
             }
+
+            const accounts = await ethereum.request({ method: "eth_accounts" });
+            setCurrentAccount(accounts[0]);
         } catch (error) {
             console.log(error);
 
@@ -97,21 +59,10 @@ export const TransactionProvider = ({ children }) => {
                     href: "https://metamask.io/",
                     timeout: 5000,
                 });
+                return;
             }
 
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-            const balance = await getContractRead().balanceOf(accounts[0]);
-            const balance1 = await getContractRead().totalBalanceOf(accounts[0]);
-            const balance2 = await getContractRead().stBalanceOf(accounts[0]);
-            const name = await getContractRead().name();
-            const convertedBalance = ethers.utils.formatUnits(balance, 9);
-            const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
-            const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
-
-            setContractName(name);
-            setBalance(convertedBalance);
-            setBalance1(convertedbalance1);
-            setBalance2(convertedbalance2);
             setCurrentAccount(accounts[0]);
         } catch (error) {
             console.log(error);
@@ -121,21 +72,60 @@ export const TransactionProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        if (ethereum) {
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            const signer = provider.getSigner();
+            const contractProvider = new ethers.Contract(contractAdress, contractABI, provider);
+            const contractSigner = new ethers.Contract(contractAdress, contractABI, signer);
+
+            setContractInstance({ contractSigner, contractProvider, provider });
+
+            ethereum.on("accountsChanged", handleDisconnect);
+        }
+
         checkIfWalletIsConnected();
 
-        function handleDisconnect(accounts) {
+        function handleDisconnect() {
             window.location.reload();
         }
-        ethereum?.on("accountsChanged", handleDisconnect);
+        return () => {
+            ethereum.removeListener("accountsChanged", handleDisconnect);
+        };
     }, []);
+
+    useEffect(() => {
+        const getBalances = async () => {
+            if (!currentAccount || !contractInstance) {
+                return;
+            }
+            const balance = await contractInstance.contractProvider.balanceOf(currentAccount);
+            const balance1 = await contractInstance.contractProvider.totalBalanceOf(currentAccount);
+            const balance2 = await contractInstance.contractProvider.stBalanceOf(currentAccount);
+            const name = await contractInstance.contractProvider.name();
+            const convertedbalance = ethers.utils.formatUnits(balance, 9);
+            const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
+            const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
+            setContractName(name);
+            setBalance(convertedbalance);
+            setBalance1(convertedbalance1);
+            setBalance2(convertedbalance2);
+
+            contractInstance.provider.on("block", getBalances);
+        };
+        getBalances();
+
+        return () => {
+            contractInstance.provider?.removeListener("block", getBalances);
+        };
+    }, [currentAccount, contractInstance]);
 
     return (
         <TransactionContext.Provider
             value={{
                 connectWallet,
                 currentAccount,
-                handleStakeChange,
-                handleUnstakeChange,
+                setStakeFormAmount,
+                setUnstakeFormAmount,
                 handleStake,
                 handleUnstake,
                 stakeFormAmount,

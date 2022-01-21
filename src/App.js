@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import WalletCard from "./components/WalletCard";
-import { Stake, Unstake } from "./components/StakeForm";
+import { WalletCard, StakeForm } from "./components";
+
 import { MainPage, AppPage, RoadmapPage, ProfilePage } from "./pages";
 
 const App = () => {
@@ -12,15 +12,7 @@ const App = () => {
             <Route path="/app" element={<AppPage />}>
                 <Route index element={<WalletCard />} />
                 <Route path="/app/info" element={<WalletCard />} />
-                <Route
-                    path="/app/stake"
-                    element={
-                        <>
-                            <Stake />
-                            <Unstake />
-                        </>
-                    }
-                />
+                <Route path="/app/stake" element={<StakeForm />} />
             </Route>
             <Route path="/roadmap" element={<RoadmapPage />} />
             <Route path="/profile" element={<ProfilePage />} />

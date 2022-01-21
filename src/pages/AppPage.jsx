@@ -8,7 +8,7 @@ const AppPage = () => {
             <div className="h-screen blue-bg">
                 <AppNavbar />
                 <div className="m-6 md:m-20 flex flex-col items-center ">
-                    <Outlet></Outlet>
+                    <Outlet />
                 </div>
             </div>
         </div>

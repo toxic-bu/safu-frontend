@@ -4,7 +4,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 const Alert = ({ message, options }) => {
     return (
         <div
-            className="bg-white border-t-4 border-teal-500 rounded-b px-3 py-1 shadow-md pointer-events-auto mt-1"
+            className="bg-white border-t-4 border-red-500 rounded-b px-3 py-1 shadow-md pointer-events-auto mt-1"
             role="alert"
         >
             <div className="flex items-center text-xs">
