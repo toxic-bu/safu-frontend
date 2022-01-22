@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
 import { AppNavbar } from "../components";
-
+import BalanceWidget from "../components/BalanceWidget";
 const AppPage = () => {
     return (
-        <div className="flex flex-col">
-            <div className="h-screen blue-bg">
+        <div className="absolute inset-0">
+            <div className="blue-bg h-full">
                 <AppNavbar />
-                <div className="mt-24 flex flex-col items-center ">
+                <BalanceWidget></BalanceWidget>
+                <div className="mt-12 flex flex-col items-center ">
                     <Outlet />
                 </div>
             </div>
