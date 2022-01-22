@@ -77,10 +77,10 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const handleSetAllStake = () => {
-        setStakeFormAmount(Math.floor(Number(rvBalance)));
+        if (rvBalance >= 1) setStakeFormAmount(Math.floor(Number(rvBalance)));
     };
     const handleSetAllUnstake = () => {
-        setUnstakeFormAmount(Math.floor(Number(stBalance)));
+        if (stBalance >= 1) setUnstakeFormAmount(Math.floor(Number(stBalance)));
     };
     useEffect(() => {
         if (ethereum) {
