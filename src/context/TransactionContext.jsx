@@ -11,13 +11,13 @@ let { ethereum } = window;
 
 export const TransactionProvider = ({ children }) => {
     const [contractInstance, setContractInstance] = useState({});
-    const [balance, setBalance] = useState("");
-    const [balance1, setBalance1] = useState("");
-    const [balance2, setBalance2] = useState("");
+    const [rvBalance, setRvBalance] = useState("");
+    const [totalBalance, setTotalBalance] = useState("");
+    const [stBalance, setStBalance] = useState("");
     const [contractName, setContractName] = useState("");
     const [currentAccount, setCurrentAccount] = useState("");
-    const [stakeFormAmount, setStakeFormAmount] = useState(0.0);
-    const [unstakeFormAmount, setUnstakeFormAmount] = useState(0.0);
+    const [stakeFormAmount, setStakeFormAmount] = useState("");
+    const [unstakeFormAmount, setUnstakeFormAmount] = useState("");
 
     const alert = useAlert();
 
@@ -25,14 +25,14 @@ export const TransactionProvider = ({ children }) => {
         let reciept = contractInstance.contractSigner.stake("" + stakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
-            setStakeFormAmount(0);
+            setStakeFormAmount("");
         });
     };
     const handleUnstake = () => {
         let reciept = contractInstance.contractSigner.unstake("" + unstakeFormAmount * Math.pow(10, 9));
         reciept.then((res) => {
             console.log(res);
-            setUnstakeFormAmount(0);
+            setUnstakeFormAmount("");
         });
     };
 
@@ -76,6 +76,12 @@ export const TransactionProvider = ({ children }) => {
         }
     };
 
+    const handleSetAllStake = () => {
+        setStakeFormAmount(Math.floor(Number(rvBalance)));
+    };
+    const handleSetAllUnstake = () => {
+        setUnstakeFormAmount(Math.floor(Number(stBalance)));
+    };
     useEffect(() => {
         if (ethereum) {
             const provider = new ethers.providers.Web3Provider(ethereum);
@@ -111,9 +117,9 @@ export const TransactionProvider = ({ children }) => {
                 const convertedbalance1 = ethers.utils.formatUnits(balance1, 9);
                 const convertedbalance2 = ethers.utils.formatUnits(balance2, 9);
                 setContractName(name);
-                setBalance(convertedbalance);
-                setBalance1(convertedbalance1);
-                setBalance2(convertedbalance2);
+                setRvBalance(convertedbalance);
+                setTotalBalance(convertedbalance1);
+                setStBalance(convertedbalance2);
                 console.log("done getBalances useEffect");
             }
         };
@@ -137,13 +143,15 @@ export const TransactionProvider = ({ children }) => {
                 currentAccount,
                 setStakeFormAmount,
                 setUnstakeFormAmount,
+                handleSetAllUnstake,
+                handleSetAllStake,
                 handleStake,
                 handleUnstake,
                 stakeFormAmount,
                 unstakeFormAmount,
-                balance,
-                balance1,
-                balance2,
+                rvBalance,
+                totalBalance,
+                stBalance,
                 contractName,
             }}
         >

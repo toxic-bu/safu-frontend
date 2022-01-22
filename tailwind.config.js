@@ -26,6 +26,9 @@ module.exports = {
             animation: {
                 "slide-in": "slide-in 0.5s ease-out",
             },
+            width: {
+                main: "30rem",
+            },
         },
     },
     plugins: [],
