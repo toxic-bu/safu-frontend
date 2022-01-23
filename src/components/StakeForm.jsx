@@ -41,7 +41,7 @@ const StakeForm = () => {
     } = useContext(TransactionContext);
 
     return (
-        <main className="bg-gray-400 dark:bg-gray-700 md:w-main rounded-3xl p-2 text-md mx-2">
+        <main className="bg-gray-400 dark:bg-gray-700 md:w-main rounded-3xl p-2 text-md m-2">
             <div className="text-sm mt-1 ml-1">
                 <TabButton label="Stake" setTab={setTab} currentTab={tab} />
                 <TabButton label="Unstake" setTab={setTab} currentTab={tab} />
