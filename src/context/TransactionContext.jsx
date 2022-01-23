@@ -19,6 +19,13 @@ export const TransactionProvider = ({ children }) => {
     const [stakeFormAmount, setStakeFormAmount] = useState("");
     const [unstakeFormAmount, setUnstakeFormAmount] = useState("");
 
+    const [totalMined, setTotalMined] = useState("");
+    const [totalStaked, setTotalStaked] = useState("");
+    const [totalAirdropped, setTotalAirdropped] = useState("");
+    const [stakedFees, setStakedFees] = useState("");
+    const [reflectedFees, setReflectedFees] = useState("");
+    const [minedByUser, setMinedByUser] = useState("");
+
     const alert = useAlert();
 
     const handleStake = async () => {
@@ -30,6 +37,7 @@ export const TransactionProvider = ({ children }) => {
             });
         }
     };
+
     const handleUnstake = async () => {
         if (unstakeFormAmount >= 1) {
             let reciept = contractInstance.contractSigner.unstake("" + unstakeFormAmount * Math.pow(10, 9));
@@ -131,8 +139,34 @@ export const TransactionProvider = ({ children }) => {
         };
         getBalances();
 
+        const getData = async () => {
+            if (contractInstance.contractProvider) {
+                const totalMined = await contractInstance.contractProvider.totalMined();
+                const totalStaked = await contractInstance.contractProvider.totalStaked();
+                const totalAirdropped = await contractInstance.contractProvider.totalAirdropped();
+                const stakedFees = await contractInstance.contractProvider.stakedFees();
+                const reflectedFees = await contractInstance.contractProvider.reflectedFees();
+                const minedByUser = await contractInstance.contractProvider.minedByUser();
+
+                const converteredTotalMined = ethers.utils.formatUnits(totalMined);
+                const converteredTotalStaked = ethers.utils.formatUnits(totalStaked);
+                const converteredTotalAirdropped = ethers.utils.formatUnits(totalAirdropped);
+                const converteredStakedFees = ethers.utils.formatUnits(stakedFees);
+                const converteredReflectedFees = ethers.utils.formatUnits(reflectedFees);
+                const converteredMinedByUser = ethers.utils.formatUnits(minedByUser);
+
+                setTotalMined(converteredTotalMined);
+                setTotalStaked(converteredTotalStaked);
+                setTotalAirdropped(converteredTotalAirdropped);
+                setStakedFees(converteredStakedFees);
+                setReflectedFees(converteredReflectedFees);
+                setMinedByUser(converteredMinedByUser);
+            }
+        };
+        getData();
         const interval = setInterval(() => {
             getBalances();
+            getData();
             console.log("did update 10sec");
         }, 10000);
 
@@ -159,6 +193,12 @@ export const TransactionProvider = ({ children }) => {
                 totalBalance,
                 stBalance,
                 contractName,
+                totalMined,
+                totalStaked,
+                totalAirdropped,
+                stakedFees,
+                reflectedFees,
+                minedByUser,
             }}
         >
             {children}
