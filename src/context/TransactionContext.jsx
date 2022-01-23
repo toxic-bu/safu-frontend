@@ -21,19 +21,23 @@ export const TransactionProvider = ({ children }) => {
 
     const alert = useAlert();
 
-    const handleStake = () => {
-        let reciept = contractInstance.contractSigner.stake("" + stakeFormAmount * Math.pow(10, 9));
-        reciept.then((res) => {
-            console.log(res);
-            setStakeFormAmount("");
-        });
+    const handleStake = async () => {
+        if (stakeFormAmount >= 1) {
+            let reciept = contractInstance.contractSigner.stake("" + stakeFormAmount * Math.pow(10, 9));
+            reciept.then((res) => {
+                console.log(res);
+                setStakeFormAmount("");
+            });
+        }
     };
-    const handleUnstake = () => {
-        let reciept = contractInstance.contractSigner.unstake("" + unstakeFormAmount * Math.pow(10, 9));
-        reciept.then((res) => {
-            console.log(res);
-            setUnstakeFormAmount("");
-        });
+    const handleUnstake = async () => {
+        if (unstakeFormAmount >= 1) {
+            let reciept = contractInstance.contractSigner.unstake("" + unstakeFormAmount * Math.pow(10, 9));
+            reciept.then((res) => {
+                console.log(res);
+                setUnstakeFormAmount("");
+            });
+        }
     };
 
     const checkIfWalletIsConnected = async () => {
@@ -78,9 +82,11 @@ export const TransactionProvider = ({ children }) => {
 
     const handleSetAllStake = () => {
         if (rvBalance >= 1) setStakeFormAmount(Math.floor(Number(rvBalance)));
+        else setStakeFormAmount("");
     };
     const handleSetAllUnstake = () => {
         if (stBalance >= 1) setUnstakeFormAmount(Math.floor(Number(stBalance)));
+        else setUnstakeFormAmount("");
     };
     useEffect(() => {
         if (ethereum) {

@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { TransactionContext } from "../context/TransactionContext";
 
+import DarkModeSwitch from "./DarkModeSwitch";
 import logo from "../img/brand.png";
 
 const AppNavbarTab = ({ link, label, setActive, activeTab }) => {
-    const props = " bg-gray-200 rounded-xl text-black ";
+    const props = "dark:bg-gray-100 bg-gray-200 rounded-xl text-black ";
 
     return (
         <Link to={link} onClick={() => setActive(label)}>
@@ -32,13 +33,16 @@ const AppNavbar = () => {
                 </Link>
             </div>
 
-            <div className="fixed sm:static bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 bg-white rounded-2xl p-0.5 flex justify-between  shadow-slate-500 shadow-md  text-stone-700">
+            <div className="fixed sm:static z-10 bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 bg-white dark:bg-gray-400 rounded-2xl p-0.5 flex justify-between  shadow-slate-500 shadow-md  text-stone-700">
                 <AppNavbarTab link="/app/info" label="Info" activeTab={activeTab} setActive={setActiveTab} />
                 <AppNavbarTab link="/app/stake" label="Staking" activeTab={activeTab} setActive={setActiveTab} />
+                <div className="cursor-pointer shadow-slate-500 rounded-xl">
+                    <DarkModeSwitch></DarkModeSwitch>
+                </div>
             </div>
 
-            <div className="text-right sm:basis-40">
-                <span className="bg-[#fff] px-3 py-1.5 border-2 border-white rounded-2xl cursor-pointer hover:bg-gray-200 text-black text-md  shadow-slate-500 shadow-md ml-auto">
+            <div className="text-right sm:basis-40 flex">
+                <span className="bg-white px-3 py-1.5 border-2 border-white rounded-2xl cursor-pointer hover:bg-gray-200 text-black text-md shadow-slate-500 shadow-md ml-auto">
                     {currentAccount ? (
                         `${currentAccount.substr(0, 4)}. .${currentAccount.substr(-3, 3)}`
                     ) : (
