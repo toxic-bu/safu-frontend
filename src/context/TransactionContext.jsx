@@ -155,12 +155,12 @@ export const TransactionProvider = ({ children }) => {
                 const converteredReflectedFees = ethers.utils.formatUnits(reflectedFees);
                 const converteredMinedByUser = ethers.utils.formatUnits(minedByUser);
 
-                setTotalMined(converteredTotalMined);
-                setTotalStaked(converteredTotalStaked);
-                setTotalAirdropped(converteredTotalAirdropped);
-                setStakedFees(converteredStakedFees);
-                setReflectedFees(converteredReflectedFees);
-                setMinedByUser(converteredMinedByUser);
+                setTotalMined(converteredTotalMined * Math.pow(10, 9));
+                setTotalStaked(converteredTotalStaked * Math.pow(10, 9));
+                setTotalAirdropped(converteredTotalAirdropped * Math.pow(10, 9));
+                setStakedFees(converteredStakedFees * Math.pow(10, 9));
+                setReflectedFees(converteredReflectedFees * Math.pow(10, 9));
+                setMinedByUser(converteredMinedByUser * Math.pow(10, 9));
             }
         };
         getData();
