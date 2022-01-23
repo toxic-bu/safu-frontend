@@ -140,13 +140,13 @@ export const TransactionProvider = ({ children }) => {
         getBalances();
 
         const getData = async () => {
-            if (contractInstance.contractProvider) {
+            if (contractInstance.contractProvider && currentAccount) {
                 const totalMined = await contractInstance.contractProvider.totalMined();
                 const totalStaked = await contractInstance.contractProvider.totalStaked();
                 const totalAirdropped = await contractInstance.contractProvider.totalAirdropped();
                 const stakedFees = await contractInstance.contractProvider.stakedFees();
                 const reflectedFees = await contractInstance.contractProvider.reflectedFees();
-                const minedByUser = await contractInstance.contractProvider.minedByUser();
+                const minedByUser = await contractInstance.contractProvider.minedByUser(currentAccount);
 
                 const converteredTotalMined = ethers.utils.formatUnits(totalMined);
                 const converteredTotalStaked = ethers.utils.formatUnits(totalStaked);
