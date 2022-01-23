@@ -260,7 +260,13 @@
             "type": "function"
         },
         {
-            "inputs": [],
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "miner",
+                    "type": "address"
+                }
+            ],
             "name": "minedByUser",
             "outputs": [
                 {
