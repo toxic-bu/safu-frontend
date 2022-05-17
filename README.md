@@ -9,6 +9,7 @@
 - Metamask connection
 - Day/light mode
 - Adaptive
+- Custom alerts
 
 ### Deployed 
 https://safu-frontend.vercel.app/
