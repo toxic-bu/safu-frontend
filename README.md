@@ -1,7 +1,10 @@
 ## Web Ui for smart-contract interaction
 
 ### Features 
-Multipage, metamask connection, day/light mode, adaptive
+- Multipage
+- Metamask connection
+- Day/light mode
+- Adaptive
 
 ### Deployed 
 https://safu-frontend.vercel.app/
