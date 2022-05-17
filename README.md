@@ -1,5 +1,9 @@
 ## Web Ui for smart-contract interaction
 
+### Stack
+- React
+- Tailwind
+
 ### Features 
 - Multipage
 - Metamask connection
